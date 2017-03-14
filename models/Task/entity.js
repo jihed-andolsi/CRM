@@ -1,10 +1,9 @@
 var mongoose = require('mongoose');
-var employeeSchema = new mongoose.Schema({
+var taskSchema = new mongoose.Schema({
     name: String,
     description: String,
-    description: String,
-    duration: Number,
-    time_estimation: Number,
-    id_employee: { type : Number, default : 0 } // foreign key for class employee
+    estimated_days: Number,
+    id_employee: { type : mongoose.Schema.Types.ObjectId, default : null }, // foreign key for class Employee
+    id_project: { type : mongoose.Schema.Types.ObjectId, default : null } // foreign key for class Project
 });
-module.exports = mongoose.model('Banned', employeeSchema);
+module.exports = mongoose.model('Task', taskSchema);

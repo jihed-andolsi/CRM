@@ -25,7 +25,7 @@ app.use(function (err, req, res, next) {
 
     // render the error page
     res.status(err.status || 500);
-    res.json({error: true});
+    res.json({error: err});
 });
 
 app.listen(PORT,function () {
