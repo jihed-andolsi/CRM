@@ -1,5 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var init = require('./config/init').start();
+const PORT = require('./config/port');
 var index = require('./routes/api');
 var app = express();
 
@@ -26,4 +28,7 @@ app.use(function (err, req, res, next) {
     res.json({error: true});
 });
 
+app.listen(PORT,function () {
+    console.log('http://%s:%s', 'localhost', PORT);
+});
 module.exports = app;
