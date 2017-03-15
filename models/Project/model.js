@@ -20,5 +20,55 @@ Project.getById = function(id_project, callback){
         callback(err, project);
     })
 }
+Project.countByIdEmployees = function(id_employee, callback){
+    Project.count({'id_employee':id_employee}, function (err, projects_number) {
+        callback(err, projects_number);
+    })
+}
+Project.assignToEmployee = function(id_project, id_employee, callback){
+    var Employee = require('./../Employee/model');
+    Employee.getById(id_employee, function(err, employee){
+        if(employee){
+            Project.countByIdEmployees(id_employee, function(err, projects_number){
+                if(projects_number<=2){
+                    Project.getById(id_project, function(err, project){
+                        if(project){
+                            project.id_employee = id_employee;
+                            project.save(function(err) {
+                                callback(err, true);
+                            });
+                        } else {
+                            callback(err, project);
+                        }
+                    })
+                } else {
+                    callback({error: 'You have a max of two projects!'}, null);
+                }
+            })
+        } else {
+            callback(err, employee);
+        }
+    })
+}
+
+Project.removeById = function (id_project, callback) {
+    Project.remove({'_id': id_project}, function (err) {
+        callback(err, true);
+    })
+}
+Project.delete = function (id_project, callback){
+    var Task = require('./../Task/model');
+    Project.getById(id_project, function(err, project){
+        if(project){
+            Project.removeById(id_project, function (err) {
+                Task.remmoveAllByIdProject(id_project, function (err) {
+                    callback(err, true);
+                })
+            })
+        } else {
+            callback(err, project);
+        }
+    })
+}
 
 module.exports = Project;

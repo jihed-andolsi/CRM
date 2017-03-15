@@ -16,5 +16,11 @@ Employee.getAll = function(callback){
         callback(err, employees);
     });
 }
+
+Employee.getById = function(id_employee, callback){
+    Employee.findOne({'_id':id_employee}, function (err, employee) {
+        callback(err, employee);
+    })
+}
 module.exports = Employee;
 

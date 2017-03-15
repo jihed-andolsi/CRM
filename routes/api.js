@@ -29,14 +29,33 @@ router.get('/', authenticated, function (req, res, next) {
         function(projects, callback){
             data.projects = projects;
             //Task.create('Task 1', 'Task 1 must be completed!', 2, callback);
-            //Task.adjustEstimatedDays('58c86c66f1650c1dac7fbae7', 3, callback);
-            //Task.assginToProject('58c86c66f1650c1dac7fbae7', '58c867717c29a10d64953ec1', callback);
+            //Task.adjustEstimatedDays('58c87fae90544b2b28397eec', 3, callback);
+            //Task.assginToProject('58c87f9b93ad0e267ceee77c', '58c876e3d8a3f82bd4a92464', callback);
+            //Project.assignToEmployee('58c87fae90544b2b28397eec', '58c85e33439fb7068c8f7e2d', callback);
+            //Task.delete('58c88072f3b2010bd8777a23', callback);
+            //Project.delete('58c876ded8a3f82bd4a92463', callback);
+            callback(null, true);
         },
         function(projects, callback){
             Task.getAll(callback);
         },
+
         function(tasks, callback){
             data.tasks = tasks;
+            callback(null, true);
+        },
+        function(result, callback){
+            Task.getAllByIdProject('58c876e3d8a3f82bd4a92464', callback);
+        },
+        function(tasks, callback){
+            data.tasksForGivenProject = tasks;
+            callback(null, true);
+        },
+        function(tasks, callback){
+            Task.getTotalDaysNeeded(["58c876e3d8a3f82bd4a92464", "58c87f9b93ad0e267ceee77c"] , callback);
+        },
+        function(tasks, callback){
+            data.estimatedForList = tasks;
             callback(null, true);
         },
     ], function (err, projects) {
